@@ -5,11 +5,13 @@ import writeJsonFile from '@/lib/writeJsonFiles';
 
 export async function POST(req) {
   try {
-    const { bucketName, objectName, fileName } = await req.json();
+    const { bucketName } = await req.json();
+    console.log({bucketName});
     const jsonDirectory = path.join(process.cwd(), 'src/data/services');
 
-    const data = await fetchDataFromMinio(bucketName, objectName);
-    writeJsonFile(jsonDirectory, fileName, data);
+    const data = await fetchDataFromMinio(bucketName);
+    console.log({data});
+    // writeJsonFile(jsonDirectory, fileName, data);
 
     return NextResponse.json({ message: 'File written successfully' });
   } catch (error) {

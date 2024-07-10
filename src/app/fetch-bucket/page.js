@@ -1,7 +1,9 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation'
 
 const FetchAndWriteJsonPage = () => {
+  const router = useRouter()
   const [bucketName, setBucketName] = useState('');
   const [objectName, setObjectName] = useState('');
   const [fileName, setFileName] = useState('');
@@ -16,11 +18,12 @@ const FetchAndWriteJsonPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ bucketName, objectName, fileName }),
+        body: JSON.stringify({ bucketName }),
       });
 
       const result = await response.json();
       setResponse(result.message || result.error);
+      if (result.message) router.push('/');
     } catch (error) {
       setResponse(`Failed to write file ${error}`);
     }
@@ -51,7 +54,7 @@ const FetchAndWriteJsonPage = () => {
                 placeholder="Bucket Name"
               />
             </div>
-            <div>
+            {/* <div>
               <label htmlFor="objectName" className="sr-only">
                 Object Name
               </label>
@@ -80,7 +83,7 @@ const FetchAndWriteJsonPage = () => {
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="File Name"
               />
-            </div>
+            </div> */}
           </div>
 
           <div>
